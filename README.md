@@ -1,0 +1,2 @@
+# VakifBank-Staj-XmlValidatorAndEditor
+
