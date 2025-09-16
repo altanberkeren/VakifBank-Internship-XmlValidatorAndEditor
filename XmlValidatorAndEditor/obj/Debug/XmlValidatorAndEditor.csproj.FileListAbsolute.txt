@@ -1,0 +1,10 @@
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\bin\Debug\XmlValidatorAndEditor.exe.config
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\bin\Debug\XmlValidatorAndEditor.exe
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\bin\Debug\XmlValidatorAndEditor.pdb
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.csproj.AssemblyReference.cache
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.MainForm.resources
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.Properties.Resources.resources
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.csproj.GenerateResource.cache
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.csproj.CoreCompileInputs.cache
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.exe
+C:\Users\altan\OneDrive\Masaüstü\New folder (3)\XmlValidatorAndEditor\XmlValidatorAndEditor\obj\Debug\XmlValidatorAndEditor.pdb
