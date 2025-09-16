@@ -1,2 +1,2 @@
-# VakifBank-Staj-XmlValidatorAndEditor
+# VakifBank-Internship-XmlValidatorAndEditor
 
