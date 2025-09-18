@@ -15,6 +15,8 @@ namespace XmlValidatorAndEditor
         private string xsdBodyPath = string.Empty;
         private string xmlPath = string.Empty;
 
+        private List<string> validationErrors = new List<string>();
+
         // This is the "master" list that will hold our entire UI structure
         private List<UiRow> allUiRows = new List<UiRow>();
 
@@ -115,9 +117,13 @@ namespace XmlValidatorAndEditor
 
         private UiRow CreateUiRow(XmlSchemaElement element, int depth, UiRow parent)
         {
-            var uiRow = new UiRow { SchemaElement = element };
+            // A. Create the main object that will hold all info for this row
+            var uiRow = new UiRow { SchemaElement = element, Parent = parent }; // <-- THIS LINE IS UPDATED
+
+            // B. Create the Panel that will be the container for the entire row
             uiRow.RowPanel = new Panel { Dock = DockStyle.Fill, Margin = new Padding(0), Height = 30 };
 
+            // C. Create the Expander Label (+/-) and the Field Name Label
             int indentation = depth * 25;
             uiRow.ExpanderLabel = new Label
             {
@@ -127,7 +133,6 @@ namespace XmlValidatorAndEditor
                 Size = new Size(15, 15),
                 Tag = uiRow
             };
-
             var nameLabel = new Label
             {
                 Text = element.Name,
@@ -135,23 +140,24 @@ namespace XmlValidatorAndEditor
                 Location = new Point(indentation + 15, 6)
             };
 
-            // This is the only change in this method
+            // D. Create the Editor Control (TextBox or ComboBox)
             Control editorControl = CreateEditorControl(element);
 
+            // E. Add all controls to the row's panel
             uiRow.RowPanel.Controls.Add(uiRow.ExpanderLabel);
             uiRow.RowPanel.Controls.Add(nameLabel);
-
-            // Only add the editor control if one was created
             if (editorControl != null)
             {
                 uiRow.RowPanel.Controls.Add(editorControl);
             }
 
+            // F. Add the new row to the main TableLayoutPanel
             tlpMainLayout.RowCount++;
             tlpMainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tlpMainLayout.Controls.Add(uiRow.RowPanel, 0, tlpMainLayout.RowCount - 1);
             tlpMainLayout.SetColumnSpan(uiRow.RowPanel, 2);
 
+            // G. Handle the recursive creation of child elements
             bool hasChildren = false;
             if (element.ElementSchemaType is XmlSchemaComplexType complexType)
             {
@@ -169,6 +175,7 @@ namespace XmlValidatorAndEditor
                 }
             }
 
+            // H. If the element has children, set the expander symbol and hook up the click event
             if (hasChildren)
             {
                 uiRow.ExpanderLabel.Text = "+";
@@ -176,6 +183,7 @@ namespace XmlValidatorAndEditor
                 uiRow.ExpanderLabel.Click += ExpanderLabel_Click;
             }
 
+            // I. Hide all children by default
             if (parent != null)
             {
                 uiRow.RowPanel.Visible = false;
@@ -298,6 +306,240 @@ namespace XmlValidatorAndEditor
                 MessageBox.Show($"Error reading or parsing XML file: {ex.Message}", "XML Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void saveXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            {
+                // If we have a known path for the XML file, save to it.
+                if (!string.IsNullOrEmpty(xmlPath))
+                {
+                    SaveXmlToFile(xmlPath);
+                }
+                else
+                {
+                    // Otherwise, we don't know where to save, so just trigger the "Save As" logic.
+                    saveXMLToolStripMenuItem_Click(sender, e);
+                }
+            }
+        }
+
+        // This is the main method that builds and saves the document.
+        private void SaveXmlToFile(string filePath)
+        {
+            if (!allUiRows.Any())
+            {
+                MessageBox.Show("There is no data to save.", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // *** CORRECTED ROOT-FINDING LOGIC ***
+                // The root is the element that has no parent. This is 100% reliable.
+                UiRow rootUiRow = allUiRows.FirstOrDefault(row => row.Parent == null);
+                if (rootUiRow == null)
+                {
+                    MessageBox.Show("Could not determine the root element to save.", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                XElement rootElement = BuildXmlElement(rootUiRow);
+                XDocument doc = new XDocument(new XDeclaration("1.0", "UTF-8", null), rootElement);
+                doc.Save(filePath);
+
+                this.xmlPath = filePath;
+                lblStatus.Text = $"File saved successfully to {System.IO.Path.GetFileName(filePath)}";
+            }
+            catch (Exception ex)
+            {
+                lblStatus.Text = "Error saving file.";
+                MessageBox.Show($"Could not save the file: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // This recursive helper method traverses our UI structure and builds XElements.
+        // This recursive helper method traverses our UI structure and builds XElements.
+        private XElement BuildXmlElement(UiRow uiRow)
+        {
+            // Create a new XML element with the name from the schema
+            XName elementName = XName.Get(uiRow.SchemaElement.Name, uiRow.SchemaElement.QualifiedName.Namespace);
+            XElement xmlElement = new XElement(elementName);
+
+            // If the row has children (like 'Contact' or 'Address'), recursively build them.
+            if (uiRow.Children.Any())
+            {
+                foreach (var childRow in uiRow.Children)
+                {
+                    // This is the crucial recursive call that builds the entire tree.
+                    xmlElement.Add(BuildXmlElement(childRow));
+                }
+            }
+            // If the row is a simple element (with an editor), get its value.
+            else
+            {
+                var editor = uiRow.RowPanel.Controls.OfType<Control>().LastOrDefault();
+                if (editor is TextBox textBox)
+                {
+                    xmlElement.Value = textBox.Text;
+                }
+                else if (editor is ComboBox comboBox)
+                {
+                    xmlElement.Value = comboBox.SelectedItem?.ToString() ?? "";
+                }
+            }
+
+            return xmlElement;
+        }
+        private void saveXMLAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All files (*.*)|*.*";
+                saveFileDialog.Title = "Save an XML File";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Call our new core saving method with the chosen path
+                    SaveXmlToFile(saveFileDialog.FileName);
+                }
+            }
+        }
+
+        // This is the main method that orchestrates the validation.
+        // This is the main method that orchestrates the validation.
+        private void ValidateCurrentData()
+        {
+            if (string.IsNullOrEmpty(xsdBodyPath) || !allUiRows.Any())
+            {
+                MessageBox.Show("Please load an XSD schema and data before validating.", "Cannot Validate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            validationErrors.Clear();
+            ClearErrorHighlights();
+
+            UiRow rootUiRow = allUiRows.FirstOrDefault(row => row.Parent == null);
+            if (rootUiRow == null) return;
+
+            XElement rootElement = BuildXmlElement(rootUiRow);
+            XDocument doc = new XDocument(rootElement);
+
+            // --- NEW LOGIC TO ADD LINE NUMBER INFO ---
+            // We re-parse the XML we just created to add line number information to every element.
+            // This is the key to reliably finding the error location later.
+            doc = XDocument.Parse(doc.ToString(), LoadOptions.SetLineInfo);
+
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            if (!string.IsNullOrEmpty(xsdHeaderPath))
+            {
+                schemas.Add(null, xsdHeaderPath);
+            }
+            schemas.Add(null, xsdBodyPath);
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas = schemas;
+
+            // We will now pass our line-info-enabled 'doc' to the callback.
+            settings.ValidationEventHandler += (sender, e) => ValidationCallBack(sender, e, doc);
+
+            try
+            {
+                using (XmlReader reader = XmlReader.Create(doc.CreateReader(), settings))
+                {
+                    while (reader.Read()) { }
+                }
+            }
+            catch (Exception ex)
+            {
+                validationErrors.Add(ex.Message);
+            }
+
+            if (validationErrors.Any())
+            {
+                lblStatus.Text = $"{validationErrors.Count} validation error(s) found.";
+                HighlightErrorControls();
+                MessageBox.Show("The data is invalid. Please see highlighted fields.\n\n" + string.Join("\n", validationErrors), "Validation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                lblStatus.Text = "Validation successful!";
+                MessageBox.Show("The current data is valid against the loaded schema.", "Validation Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        // This method is called automatically by the Validate method for each error found.
+        // Note the new signature: we now pass the XDocument in.
+        private void ValidationCallBack(object sender, ValidationEventArgs e, XDocument document)
+        {
+            validationErrors.Add(e.Message);
+
+            // Get the line number from the exception.
+            int errorLine = e.Exception.LineNumber;
+            if (errorLine <= 0) return;
+
+            try
+            {
+                // Find the first XML element located at that line number.
+                XElement errorElement = document.Descendants()
+                    .FirstOrDefault(x => ((IXmlLineInfo)x).HasLineInfo() && ((IXmlLineInfo)x).LineNumber == errorLine);
+
+                if (errorElement != null)
+                {
+                    // Now that we have the element, we find its corresponding UI row by name.
+                    var errorRow = allUiRows.FirstOrDefault(row => row.SchemaElement.Name == errorElement.Name.LocalName);
+
+                    if (errorRow != null)
+                    {
+                        // Mark the row for highlighting.
+                        var editor = errorRow.RowPanel.Controls.OfType<Control>().LastOrDefault();
+                        if (editor != null)
+                        {
+                            errorRow.RowPanel.Tag = editor;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore any errors during the highlighting process.
+            }
+        }
+
+        // This method is called after validation to color all the "marked" controls.
+        private void HighlightErrorControls()
+        {
+            foreach (var row in allUiRows)
+            {
+                // We check if we marked this row's panel with a control that has an error.
+                if (row.RowPanel.Tag is Control controlToHighlight)
+                {
+                    controlToHighlight.BackColor = Color.LightCoral;
+                }
+            }
+        }
+
+        // This method resets the color of all controls before a new validation run.
+        private void ClearErrorHighlights()
+        {
+            foreach (var row in allUiRows)
+            {
+                // Clear the tag and reset the background color for all controls.
+                row.RowPanel.Tag = null;
+                var editor = row.RowPanel.Controls.OfType<Control>().LastOrDefault();
+                if (editor != null)
+                {
+                    // Use SystemColors.Window to respect the user's current Windows theme.
+                    editor.BackColor = SystemColors.Window;
+                }
+            }
+        }
+
+
+        private void btnValidateXml_Click(object sender, EventArgs e)
+        {
+            ValidateCurrentData();
+        }
     }
 
     public class UiRow
@@ -306,6 +548,7 @@ namespace XmlValidatorAndEditor
         public Panel RowPanel { get; set; }
         public Label ExpanderLabel { get; set; }
         public bool IsExpanded { get; set; } = false;
+        public UiRow Parent { get; set; }
         public List<UiRow> Children { get; set; } = new List<UiRow>();
     }
 }

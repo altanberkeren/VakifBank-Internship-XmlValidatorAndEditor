@@ -44,7 +44,6 @@
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -88,7 +87,7 @@
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openXSDToolStripMenuItem
@@ -122,12 +121,14 @@
             this.saveXMLToolStripMenuItem.Name = "saveXMLToolStripMenuItem";
             this.saveXMLToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.saveXMLToolStripMenuItem.Text = "&Save XML";
+            this.saveXMLToolStripMenuItem.Click += new System.EventHandler(this.saveXMLToolStripMenuItem_Click);
             // 
             // saveXMLAsToolStripMenuItem
             // 
             this.saveXMLAsToolStripMenuItem.Name = "saveXMLAsToolStripMenuItem";
             this.saveXMLAsToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.saveXMLAsToolStripMenuItem.Text = "Save XML &As";
+            this.saveXMLAsToolStripMenuItem.Click += new System.EventHandler(this.saveXMLAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -145,7 +146,7 @@
             this.toolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.validateXmlToolStripMenuItem});
             this.toolToolStripMenuItem.Name = "toolToolStripMenuItem";
-            this.toolToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
+            this.toolToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
             this.toolToolStripMenuItem.Text = "&Tools";
             // 
             // validateXmlToolStripMenuItem
@@ -175,7 +176,6 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
             this.printToolStripButton,
@@ -193,15 +193,6 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(29, 28);
-            this.newToolStripButton.Text = "&New";
-            // 
             // openToolStripButton
             // 
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -217,7 +208,7 @@
             this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(29, 28);
+            this.saveToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.saveToolStripButton.Text = "&Save";
             // 
             // printToolStripButton
@@ -226,13 +217,13 @@
             this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
             this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(29, 28);
+            this.printToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.printToolStripButton.Text = "&Print";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator.Size = new System.Drawing.Size(6, 27);
             // 
             // helpToolStripButton
             // 
@@ -240,7 +231,7 @@
             this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
             this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(29, 28);
+            this.helpToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.helpToolStripButton.Text = "He&lp";
             // 
             // btnLoadXsdHeader
@@ -249,7 +240,7 @@
             this.btnLoadXsdHeader.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadXsdHeader.Image")));
             this.btnLoadXsdHeader.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadXsdHeader.Name = "btnLoadXsdHeader";
-            this.btnLoadXsdHeader.Size = new System.Drawing.Size(99, 28);
+            this.btnLoadXsdHeader.Size = new System.Drawing.Size(99, 24);
             this.btnLoadXsdHeader.Text = "Load Header";
             this.btnLoadXsdHeader.ToolTipText = "Load XSD Header File";
             this.btnLoadXsdHeader.Click += new System.EventHandler(this.openXSDToolStripMenuItem_Click);
@@ -260,7 +251,7 @@
             this.btnLoadXsdBody.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadXsdBody.Image")));
             this.btnLoadXsdBody.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadXsdBody.Name = "btnLoadXsdBody";
-            this.btnLoadXsdBody.Size = new System.Drawing.Size(84, 28);
+            this.btnLoadXsdBody.Size = new System.Drawing.Size(84, 24);
             this.btnLoadXsdBody.Text = "Load Body";
             this.btnLoadXsdBody.ToolTipText = "Load XSD Body File";
             this.btnLoadXsdBody.Click += new System.EventHandler(this.loadXSDBodyToolStripMenuItem_Click);
@@ -271,7 +262,7 @@
             this.btnLoadXml.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadXml.Image")));
             this.btnLoadXml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadXml.Name = "btnLoadXml";
-            this.btnLoadXml.Size = new System.Drawing.Size(79, 28);
+            this.btnLoadXml.Size = new System.Drawing.Size(79, 24);
             this.btnLoadXml.Text = "Load XML";
             this.btnLoadXml.ToolTipText = "Load XML File";
             // 
@@ -281,14 +272,14 @@
             this.btnSaveXml.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveXml.Image")));
             this.btnSaveXml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveXml.Name = "btnSaveXml";
-            this.btnSaveXml.Size = new System.Drawing.Size(44, 28);
+            this.btnSaveXml.Size = new System.Drawing.Size(44, 24);
             this.btnSaveXml.Text = "Save";
             this.btnSaveXml.ToolTipText = "Save the current XML file";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
             // 
             // btnValidateXml
             // 
@@ -296,9 +287,10 @@
             this.btnValidateXml.Image = ((System.Drawing.Image)(resources.GetObject("btnValidateXml.Image")));
             this.btnValidateXml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnValidateXml.Name = "btnValidateXml";
-            this.btnValidateXml.Size = new System.Drawing.Size(67, 28);
+            this.btnValidateXml.Size = new System.Drawing.Size(67, 24);
             this.btnValidateXml.Text = "Validate";
             this.btnValidateXml.ToolTipText = "Validate the XML against the XSDs";
+            this.btnValidateXml.Click += new System.EventHandler(this.btnValidateXml_Click);
             // 
             // pnlScrollContainer
             // 
@@ -366,7 +358,6 @@
         private System.Windows.Forms.ToolStripMenuItem validateXmlToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStripMain;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripButton printToolStripButton;

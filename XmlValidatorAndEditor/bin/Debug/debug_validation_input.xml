@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Contact>
+  <FirstName>Jonathan </FirstName>
+  <LastName>Dasd</LastName>
+  <Status>Inactive</Status>
+  <Address>
+    <Street>123 asd</Street>
+    <City>Anytasd</City>
+  </Address>
+</Contact>
