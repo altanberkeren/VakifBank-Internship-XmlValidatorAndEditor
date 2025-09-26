@@ -31,7 +31,7 @@ The XML Validator and Editor is a user-friendly Windows desktop application buil
 
 #### Detailed Error Report
 *A dialog box providing a complete list of all validation errors found.*
-![Detailed validation error report](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132448.jpg)
+![Detailed validation error report](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132448.png)
 
 ## How It Works
 
