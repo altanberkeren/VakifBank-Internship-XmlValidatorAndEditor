@@ -19,23 +19,19 @@ The XML Validator and Editor is a user-friendly Windows desktop application buil
 
 #### Main Interface
 *The application interface after loading an XSD schema and an XML file.*
-![Main application interface](files/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132413.png)
-*(Filename: Ekran görüntüsü 2025-09-26 132413.png)*
+![Main application interface](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132413.png)
 
 #### Validation and Error Highlighting
 *"Validate" button is clicked, and fields with data that violate the schema rules are highlighted in red.*
-![Validation errors highlighted in the UI](files/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132612.png)
-*(Filename: Ekran görüntüsü 2025-09-26 132612.png)*
+![Validation errors highlighted in the UI](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132612.png)
 
 #### Field Schema Information
 *A tooltip showing the data type and length constraints for a selected field.*
-![Tooltip with schema information](files/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132629.png)
-*(Filename: Ekran görüntüsü 2025-09-26 132629.png)*
+![Tooltip with schema information](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132629.png)
 
 #### Detailed Error Report
 *A dialog box providing a complete list of all validation errors found.*
-![Detailed validation error report](files/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132448.jpg)
-*(Filename: Ekran görüntüsü 2025-09-26 132448.jpg)*
+![Detailed validation error report](Screenshots/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-09-26%20132448.jpg)
 
 ## How It Works
 
