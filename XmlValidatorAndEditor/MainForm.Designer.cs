@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +58,7 @@
             this.btnValidateXml = new System.Windows.Forms.ToolStripButton();
             this.pnlScrollContainer = new System.Windows.Forms.Panel();
             this.tlpMainLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.fieldToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStripMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -265,6 +267,7 @@
             this.btnLoadXml.Size = new System.Drawing.Size(79, 24);
             this.btnLoadXml.Text = "Load XML";
             this.btnLoadXml.ToolTipText = "Load XML File";
+            this.btnLoadXml.Click += new System.EventHandler(this.loadXMLToolStripMenuItem_Click);
             // 
             // btnSaveXml
             // 
@@ -275,6 +278,7 @@
             this.btnSaveXml.Size = new System.Drawing.Size(44, 24);
             this.btnSaveXml.Text = "Save";
             this.btnSaveXml.ToolTipText = "Save the current XML file";
+            this.btnSaveXml.Click += new System.EventHandler(this.saveXMLToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -372,6 +376,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Panel pnlScrollContainer;
         private System.Windows.Forms.TableLayoutPanel tlpMainLayout;
+        private System.Windows.Forms.ToolTip fieldToolTip;
     }
 }
 
